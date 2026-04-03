@@ -50,11 +50,13 @@ export const Sidebar: React.FC = () => {
         <div 
           className="w-9 h-9 flex items-center justify-center shrink-0"
           style={{
-            border: '1.5px solid var(--accent)',
-            color: 'var(--accent)',
+            borderRadius: '50%',
+            background: 'var(--text-primary)',
           }}
         >
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: '20px', lineHeight: 1 }}>M</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L22 20H2L12 2Z" fill="var(--surface-1)" />
+          </svg>
         </div>
         {!isCollapsed && (
           <div className="flex flex-col">
