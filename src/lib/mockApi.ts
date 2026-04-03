@@ -2,7 +2,7 @@ import { Transaction } from "@/types";
 import { mockTransactions } from "./mockData";
 
 const STORAGE_KEY = "meridian_transactions";
-const THEME_KEY = "meridian_theme";
+const THEME_KEY = "meridian_theme_v2"; // Changed to reset cached dark themes
 const ROLE_KEY = "meridian_role";
 
 // Simulate network delay
