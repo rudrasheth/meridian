@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
+import { ToastContainer } from "@/components/ToastContainer";
 import { useStore } from "@/store/useStore";
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         )}
       </main>
+      <ToastContainer />
     </div>
   );
 }

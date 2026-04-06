@@ -40,8 +40,8 @@ export function saveTheme(theme: "light" | "dark") {
 }
 
 export function loadRole(): "Admin" | "Viewer" {
-  if (typeof window === "undefined") return "Admin";
-  return (localStorage.getItem(ROLE_KEY) as "Admin" | "Viewer") || "Admin";
+  if (typeof window === "undefined") return "Viewer";
+  return (localStorage.getItem(ROLE_KEY) as "Admin" | "Viewer") || "Viewer";
 }
 
 export function saveRole(role: "Admin" | "Viewer") {

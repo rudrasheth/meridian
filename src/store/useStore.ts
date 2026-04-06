@@ -2,6 +2,12 @@ import { create } from "zustand";
 import { UserRole, Transaction } from "@/types";
 import { mockApi, loadTransactions, saveTransactions, loadTheme, saveTheme, loadRole, saveRole } from "@/lib/mockApi";
 
+export interface Toast {
+  id: string;
+  message: string;
+  type?: "success" | "info" | "error";
+}
+
 interface DashboardStore {
   // Theme
   theme: "light" | "dark";
@@ -36,6 +42,11 @@ interface DashboardStore {
   deleteTransaction: (id: string) => Promise<void>;
   updateTransaction: (id: string, updates: Partial<Transaction>) => Promise<void>;
 
+  // Toasts
+  toasts: Toast[];
+  addToast: (message: string, type?: "success" | "info" | "error") => void;
+  removeToast: (id: string) => void;
+
   // Hydration
   hydrated: boolean;
   hydrate: () => void;
@@ -51,6 +62,7 @@ export const useStore = create<DashboardStore>((set, get) => ({
     if (typeof document !== "undefined") {
       document.documentElement.setAttribute("data-theme", next);
     }
+    get().addToast(`Switched to ${next} mode`, "info");
   },
   initTheme: () => {
     const stored = loadTheme();
@@ -61,10 +73,11 @@ export const useStore = create<DashboardStore>((set, get) => ({
   },
 
   // Role
-  role: "Admin",
+  role: "Viewer",
   setRole: (role) => {
     saveRole(role);
     set({ role });
+    get().addToast(`Access Level changed to ${role}`, "success");
   },
 
   // Filters
@@ -122,6 +135,19 @@ export const useStore = create<DashboardStore>((set, get) => ({
       return { transactions: updated };
     });
   },
+
+  // Toasts
+  toasts: [],
+  addToast: (message, type = "info") => {
+    const id = Math.random().toString(36).substring(2, 9);
+    set((state) => ({ toasts: [...state.toasts, { id, message, type }] }));
+    // Auto remove after 3s
+    setTimeout(() => {
+      get().removeToast(id);
+    }, 3000);
+  },
+  removeToast: (id) =>
+    set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) })),
 
   // Hydration
   hydrated: false,

@@ -34,6 +34,7 @@ export default function Dashboard() {
     groupBy, setGroupBy,
     transactions: storeTransactions,
     addTransaction,
+    addToast,
   } = useStore();
 
   const [chartInterval, setChartInterval] = useState("Monthly");
@@ -124,6 +125,7 @@ export default function Dashboard() {
       type: amount > 0 ? "income" : "expense",
       status: "completed"
     });
+    addToast(`Successfully logged ${amount > 0 ? "income" : "expense"} of ${formatCurrency(Math.abs(amount))}.`, "success");
   };
 
   const handleExportCSV = useCallback(() => {
@@ -137,7 +139,8 @@ export default function Dashboard() {
     a.click();
     URL.revokeObjectURL(url);
     setExportOpen(false);
-  }, [transactions]);
+    addToast("Exported transactions as CSV.", "success");
+  }, [transactions, addToast]);
 
   const handleExportJSON = useCallback(() => {
     const exportData = {
@@ -165,7 +168,8 @@ export default function Dashboard() {
     a.click();
     URL.revokeObjectURL(url);
     setExportOpen(false);
-  }, [transactions, stats, searchQuery, categoryFilter, typeFilter, statusFilter, dateRange]);
+    addToast("Exported transactions as JSON.", "success");
+  }, [transactions, stats, searchQuery, categoryFilter, typeFilter, statusFilter, dateRange, addToast]);
 
   return (
     <div className="flex-1 min-h-screen">
